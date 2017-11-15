@@ -30,8 +30,15 @@ public class MybatisStreamTestApplication implements CommandLineRunner {
 				.map(i -> new User(UUID.randomUUID().toString(), new Random().nextInt(100)))
 				.forEach(userMapper::save);
 
+		int totalRecords = userMapper.totalCount();
+
 		ResultHandlerWithSubscriber subscriber = new ResultHandlerWithSubscriber();
-		subscriber.getResultStream().subscribe(result -> System.out.println("result: "+result));
+//		subscriber.setLimit(1, 3);
+		subscriber.setSize(totalRecords);
+
+		subscriber.getResultStream().subscribe(result -> System.out.println("result: "+result),
+				error -> System.out.println("error: "+error.getMessage()),
+				() -> System.out.println("finished"));
 
 		resultStreamServiceFromMyBatis.publish(subscriber);
 	}

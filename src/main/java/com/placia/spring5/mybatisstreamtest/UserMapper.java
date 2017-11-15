@@ -14,4 +14,7 @@ public interface UserMapper {
 
     @Insert("insert into user (id, name, age) values (#{id}, #{name}, #{age})")
     void save(User user);
+
+    @Select("select count(id) from user")
+    int totalCount();
 }

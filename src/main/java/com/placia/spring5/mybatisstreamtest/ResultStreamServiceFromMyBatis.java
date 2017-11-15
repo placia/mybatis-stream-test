@@ -10,9 +10,9 @@ public class ResultStreamServiceFromMyBatis {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
-    public void publish(ResultHandlerWithSubscriber resultHandlerWithSubscriber) {
+    public void publish(String statement, ResultHandlerWithSubscriber resultHandlerWithSubscriber) {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            sqlSession.select("com.placia.spring5.mybatisstreamtest.UserMapper.findAll", resultHandlerWithSubscriber);
+            sqlSession.select(statement, resultHandlerWithSubscriber);
         } catch (Exception e) {
             e.printStackTrace();
         }

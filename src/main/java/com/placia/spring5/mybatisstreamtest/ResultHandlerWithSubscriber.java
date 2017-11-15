@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ResultHandlerWithSubscriber implements ResultHandler<User>  {
+public class ResultHandlerWithSubscriber<T> implements ResultHandler<T>  {
     private final AtomicInteger readCount;
     private final AtomicInteger publishCount;
-    private List<FluxSink<User>> sinks;
-    private Flux<User> resultStream;
+    private List<FluxSink<T>> sinks;
+    private Flux<T> resultStream;
     private int start = 0;
     private int size = Integer.MAX_VALUE;
 
@@ -29,7 +29,7 @@ public class ResultHandlerWithSubscriber implements ResultHandler<User>  {
                 });
     }
 
-    public Flux<User> getResultStream() {
+    public Flux<T> getResultStream() {
         return resultStream;
     }
 
@@ -51,7 +51,7 @@ public class ResultHandlerWithSubscriber implements ResultHandler<User>  {
     }
 
     @Override
-    public void handleResult(ResultContext<? extends User> resultContext) {
+    public void handleResult(ResultContext<? extends T> resultContext) {
         int index = readCount.getAndIncrement();
 
         sinks.forEach(handler -> {

@@ -32,7 +32,7 @@ public class MybatisStreamTestApplication implements CommandLineRunner {
 
 		int totalRecords = userMapper.totalCount();
 
-		ResultHandlerWithSubscriber subscriber = new ResultHandlerWithSubscriber();
+		ResultHandlerWithSubscriber<User> subscriber = new ResultHandlerWithSubscriber<>();
 //		subscriber.setLimit(1, 3);
 		subscriber.setSize(totalRecords);
 
@@ -40,6 +40,6 @@ public class MybatisStreamTestApplication implements CommandLineRunner {
 				error -> System.out.println("error: "+error.getMessage()),
 				() -> System.out.println("finished"));
 
-		resultStreamServiceFromMyBatis.publish(subscriber);
+		resultStreamServiceFromMyBatis.publish("com.placia.spring5.mybatisstreamtest.UserMapper.findAll", subscriber);
 	}
 }
